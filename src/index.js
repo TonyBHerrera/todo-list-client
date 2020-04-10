@@ -17,9 +17,22 @@ class App extends React.Component {
     }
   }
 
+  deleteItem = id => {
+    fetch(`https://tbh-flask-todo-api.herokuapp.com/todo/${id}`, {
+      method: "DELETE"
+    })
+      .then(
+        this.setState({
+          todos: this.state.todos.filter(item => {
+            return item.id !== id
+          })
+        })
+      )
+  }
+
   renderTodos = () => {
     return this.state.todos.map(item => {
-      return <TodoItem key={item.id} item={item} />
+      return <TodoItem key={item.id} item={item} deleteItem={this.deleteItem} />
     })
   }
 
